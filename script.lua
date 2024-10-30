@@ -13,8 +13,7 @@ if success then
     -- Check if the player's UserId is whitelisted
     if whitelist[tostring(player.UserId)] then
         loadstring([[ 
-            -- Place this script in StarterPlayer > StarterPlayerScripts or StarterGui for LocalScript
-
+            -- Place your original script here
             local player = game.Players.LocalPlayer
             local screenGui = Instance.new("ScreenGui")
             local frame = Instance.new("Frame")
