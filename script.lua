@@ -1,5 +1,7 @@
 local HttpService = game:GetService("HttpService")
 local player = game.Players.LocalPlayer
+
+-- URL for the whitelist JSON file
 local whitelistUrl = "https://raw.githubusercontent.com/STEVEPVPS69/LunarisBox/main/whitelist.json"
 
 -- Fetch the whitelist
@@ -9,11 +11,13 @@ end)
 
 if success then
     local whitelist = HttpService:JSONDecode(response)
-
+    
     -- Check if the player's UserId is whitelisted
     if whitelist[tostring(player.UserId)] then
+        -- Place the original script here
         loadstring([[
-            -- Place your original script code here
+            -- Place this script in StarterPlayer > StarterPlayerScripts or StarterGui for LocalScript
+
             local player = game.Players.LocalPlayer
             local screenGui = Instance.new("ScreenGui")
             local frame = Instance.new("Frame")
@@ -79,8 +83,9 @@ if success then
             local function teleportToCoordinate(targetPos)
                 local rootPart = player.Character:WaitForChild("HumanoidRootPart")
                 while (rootPart.Position - targetPos).magnitude > 2 and teleporting do
+                    -- Calculate direction to move towards the target
                     local direction = (targetPos - rootPart.Position).unit
-                    rootPart.CFrame = rootPart.CFrame + direction * 2
+                    rootPart.CFrame = rootPart.CFrame + direction * 2  -- Move 2 studs towards the target
                     wait(0.1)
                 end
             end
@@ -100,19 +105,32 @@ if success then
                 local originalOrientation = rootPart.CFrame
 
                 while teleporting do
+                    -- 1. Move to first coordinate
                     teleportToCoordinate(firstCoordinate)
                     keyPress("E", 1.5)
+
+                    -- 2. Move to second coordinate
                     teleportToCoordinate(secondCoordinate)
 
+                    -- 3. Equip "Crate" item in the backpack
                     local crate = player.Backpack:FindFirstChild(crateName)
                     if crate then
-                        crate.Parent = player.Character
+                        crate.Parent = player.Character  -- Equip "Crate"
                     end
 
+                    -- 4. Flip player 180 degrees
                     rootPart.CFrame = rootPart.CFrame * CFrame.Angles(0, math.pi, 0)
+
+                    -- 5. Hold "E" for 1.5 seconds to trigger interaction
                     keyPress("E", 1.5)
+
+                    -- 6. Move back to the first coordinate
                     teleportToCoordinate(firstCoordinate)
+
+                    -- 7. Flip back to original orientation
                     rootPart.CFrame = originalOrientation
+
+                    -- 8. Hold "E" for 1.5 seconds again
                     keyPress("E", 1.5)
                 end
             end
