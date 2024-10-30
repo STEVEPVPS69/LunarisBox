@@ -1,6 +1,6 @@
 local HttpService = game:GetService("HttpService")
 local player = game.Players.LocalPlayer
-local whitelistUrl = "https://raw.githubusercontent.com/STEVEPVPS69/LunarisBox/main/whitelist.json"
+local whitelistUrl = "https://raw.githubusercontent.com/STEVEPVPS69/LunarisBox/refs/heads/main/whitelist.json"
 
 -- Fetch the whitelist
 local success, response = pcall(function()
