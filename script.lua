@@ -8,10 +8,13 @@ local success, response = pcall(function()
 end)
 
 if success then
+    print("Whitelist fetched successfully.")
     local whitelist = HttpService:JSONDecode(response)
-    
+    print("Decoded whitelist: ", whitelist)
+
     -- Check if the player's UserId is whitelisted
     if whitelist[tostring(player.UserId)] then
+        print("Player is whitelisted. Loading script...")
         loadstring([[ 
             -- Place your original script here
             local player = game.Players.LocalPlayer
@@ -144,8 +147,10 @@ if success then
             end)
         ]])()
     else
+        print("Player is not whitelisted. Kicking...")
         player:Kick("You are not whitelisted to use this script.")
     end
 else
+    print("Failed to fetch the whitelist. Kicking...")
     player:Kick("Failed to fetch the whitelist. Please try again later.")
 end
