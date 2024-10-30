@@ -4,7 +4,7 @@ local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 
 -- Define the URL for the whitelist JSON file
-local whitelistUrl = "https://raw.githubusercontent.com/YourUsername/MyRobloxScripts/main/whitelist.json"
+local whitelistUrl = "https://raw.githubusercontent.com/STEVEPVPS69/LunarisBox/main/whitelist.json"
 
 -- Function to check if the player is whitelisted
 local function isPlayerWhitelisted(playerName)
