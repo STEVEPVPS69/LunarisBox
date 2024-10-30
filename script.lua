@@ -1,34 +1,18 @@
--- Load the whitelist from GitHub
 local HttpService = game:GetService("HttpService")
-local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
-
--- Define the URL for the whitelist JSON file
+local player = game.Players.LocalPlayer
 local whitelistUrl = "https://raw.githubusercontent.com/STEVEPVPS69/LunarisBox/main/whitelist.json"
 
--- Function to check if the player is whitelisted
-local function isPlayerWhitelisted(playerName)
-    local success, response = pcall(function()
-        return HttpService:GetAsync(whitelistUrl)
-    end)
+-- Fetch the whitelist
+local success, response = pcall(function()
+    return HttpService:GetAsync(whitelistUrl)
+end)
 
-    if not success then
-        warn("Could not fetch the whitelist: " .. response)
-        return false
-    end
-
-    local whitelistData = HttpService:JSONDecode(response)
-
-    -- Check if the player's UserId is in the whitelist
-    local playerId = tostring(LocalPlayer.UserId)
-    return whitelistData[playerId] ~= nil
-end
-
--- Main execution block
-if isPlayerWhitelisted(LocalPlayer.Name) then
-    print("Welcome, " .. LocalPlayer.Name .. "! Your script is executing.")
-
-    -- Your main script functionality goes here
+if success then
+    local whitelist = HttpService:JSONDecode(response)
+    
+    -- Check if the player's UserId is whitelisted
+    if whitelist[tostring(player.UserId)] then
+        loadstring([[
 -- Place this script in StarterPlayer > StarterPlayerScripts or StarterGui for LocalScript
 
 local player = game.Players.LocalPlayer
@@ -159,9 +143,10 @@ end)
 stopButton.MouseButton1Click:Connect(function()
     teleporting = false
 end)
-
-
+        ]])()
+    else
+        player:Kick("You are not whitelisted to use this script.")
+    end
 else
-    -- Kick the player if they are not whitelisted
-    LocalPlayer:Kick("You are not whitelisted to use this script.")
+    player:Kick("Failed to fetch the whitelist. Please try again later.")
 end
