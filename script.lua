@@ -1,6 +1,6 @@
 local HttpService = game:GetService("HttpService")
 local player = game.Players.LocalPlayer
-local whitelistUrl = "https://raw.githubusercontent.com/STEVEPVPS69/LunarisBox/refs/heads/main/whitelist.json"
+local whitelistUrl = "https://raw.githubusercontent.com/STEVEPVPS69/LunarisBox/main/whitelist.json"
 
 -- Fetch the whitelist
 local success, response = pcall(function()
@@ -10,11 +10,13 @@ end)
 if success then
     local whitelist = HttpService:JSONDecode(response)
     
-    -- Check if the player's UserId is whitelisted
-    if whitelist[tostring(player.UserId)] then
+    -- Check if the player's Username is whitelisted
+    if whitelist[player.Name] then
+        -- Run the main script if the player is whitelisted
         loadstring([[
 
--- Place your original script here
+        -- ====== PLACE YOUR SCRIPT BELOW THIS LINE ======
+        -- Place this script in StarterPlayer > StarterPlayerScripts or StarterGui for LocalScript
 
 local player = game.Players.LocalPlayer
 local screenGui = Instance.new("ScreenGui")
@@ -143,8 +145,11 @@ end)
 -- Stop button functionality
 stopButton.MouseButton1Click:Connect(function()
     teleporting = false
-end
-        )]])()
+end)
+
+        -- ====== END OF CUSTOM SCRIPT ======
+        
+        ]])()
     else
         player:Kick("You are not whitelisted to use this script.")
     end
